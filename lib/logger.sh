@@ -16,20 +16,26 @@
 #	-	Valuesto enable the debugmessages: TRUE, True, true
 #
 #	Usage:
-#	-	Pipe your Messages into ${LOGGER}
-#	-	i.e.: echo "Your MSG" | ${LOGGER}
+#	-	logger "logmessage" "logfacility"
 #
 ###############################################################################
 
 
-function set_logger {
-	# Check if log to syslog is enabled
+function logger {
+	LOGMSG=${1}
+	LOGFACILITY=${2}
 	if [[ "${ENABLE_SYSLOG}" == "TRUE" ]] || [[ "${ENABLE_SYSLOG}" == "True" ]] || [[ "${ENABLE_SYSLOG}" == "true" ]]; then
-		# If true then define the logger
-		LOGGER="/usr/bin/logger -s -i -t databasebackup"
+		if [[ -n "${LOGMSG}" ]] || [[ -n "${LOGFACILITY}" ]]; then
+			echo "${LOGMSG}" | /usr/bin/logger -s -i -t ${LOGFACILITY}
+		else
+			echo "No loginformation provided for syslog" | /usr/bin/logger -s -i
+		fi
 	else
-		# If not cat it out on stdout
-		LOGGER="/bin/cat"
+		if [[ -n "${LOGMSG}" ]] || [[ -n "${LOGFACILITY}" ]]; then
+			echo "$(date +%c) ${LOGFACILITY} ${LOGMSG}" | /bin/cat
+		else
+			echo "No loginformation provided for logoutput on stdout" | /bin/cat
+		fi
 	fi
 }
 
