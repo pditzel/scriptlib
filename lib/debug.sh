@@ -23,12 +23,12 @@
 
 function debug {
         DEBUGMSG=$1
-        if [[ "${ENABLE_DEBUG}" == "TRUE" ]] || [[ "${ENABLE_DEBUG} == "True" ]] || [[ ${ENABLE_DEBUG} == "true" ]] ; then
-		if [ -z ${LOGGER} ]; then
-                	echo "<debuginformation>: $DEBUGMSG" | $LOGGER
+        if [[ "${ENABLE_DEBUG}" == "TRUE" ]] || [[ "${ENABLE_DEBUG}" == "True" ]] || [[ "${ENABLE_DEBUG}" == "true" ]] ; then
+		if [[ "${ENABLE_SYSLOG}" == "TRUE" ]]; then
+                	logger "$DEBUGMSG" "<debuginfotmation>:"
 		else
-			echo "WARNING: \$LOGGER is not set, just echo the debugmessage:"
-			echo "${DEBUGMSG}"
+			echo "WARNING: \$ENABLE_SYSLOG is not set, just echo the debugmessage:"
+			echo "<debiginformation>: ${DEBUGMSG}"
 		fi
         fi
 }
