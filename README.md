@@ -11,5 +11,18 @@ for LIB in /PATH/TO/THE/LIBS*; do
 done
 ```
 
+Alternatively
+
+```
+source /PATH/TO/LIB/*
+```
+
 Do not forget to set the correct path to scriptlib.
+
+## Configuration
+
+If the configuration variables are not set the script lib/defaultconfiguration.sh will set all variables to default values. You can show all available varaibles by running this script with -s:
+```
+./lib/defaultconfiguration.sh -s
+```
 
